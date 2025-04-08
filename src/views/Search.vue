@@ -1,10 +1,17 @@
 <script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
     console.log("Hello")
 </script>
 
 <template>
 
 <div class="flex justify-center align-center">
+
+  <div class="flex align-center" @click="router.back()">
+            <img src="/leftArrow.png" class="icon back-button" />
+        </div>
 
   <h1>SEARCH FOR</h1>
     <div class="button-container">
@@ -49,6 +56,11 @@ h1 {
 
 .button:active {
   background-color: var(--clr-accent-300); 
+}
+
+img {
+    max-width: 30px;
+    max-height: 30px;
 }
 
 </style>

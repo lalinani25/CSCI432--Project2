@@ -2,6 +2,8 @@
 import { ref, useTemplateRef } from 'vue';
 import Player from '@/components/Player.vue';
 import Modal from '@/components/Modal.vue';
+import { useRouter } from 'vue-router'
+const router = useRouter();
 
 const searchQuery = ref('');  
 const players = ref([]);
@@ -18,7 +20,7 @@ let url = 'https://csci-430-server-dubbabadgmf8hpfk.eastus2-01.azurewebsites.net
 const fetchPlayers = async () => {
   let searchUrl = url; 
   
-    searchUrl += `?name-search=${searchQuery.value}`; 
+    searchUrl += `?name-search=${searchQuery.value}&per_page=50`; 
 
 
 
@@ -73,8 +75,14 @@ const getPlayersDetails = async (playerId) => {
 </script>
 
 <template>
+
   <div class="flex justify-center align-center">
+    <div class="flex align-center" @click="router.back()">
+            <img src="/leftArrow.png" class="icon back-button" />
+        </div>
+  
     <div class="search-engine">
+    
       <h1>Players</h1>
 
       <div class="search-container">
@@ -150,7 +158,9 @@ const getPlayersDetails = async (playerId) => {
               <legend>Season</legend>
               <p>{{ selectedPlayerData?.season }}</p>
             </fieldset>
+
           </div>
+
         </template>
 
         <template #footer>
@@ -206,7 +216,7 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px; /* Space between input and button */
+  gap: 10px; 
   margin-bottom: 10px;
   width: 100%;
   max-width: 600px;
@@ -214,7 +224,7 @@ h2 {
 
 input {
   padding: 10px;
-  flex-grow: 1; /* Allow the input field to grow */
+  flex-grow: 1; 
   min-width: 200px;
   max-width: 400px; 
 }
@@ -293,5 +303,10 @@ p {
   max-height: 400px;  
   overflow-y: auto;   
   padding-right: 5px; 
+}
+
+img {
+    max-width: 30px;
+    max-height: 30px;
 }
 </style>

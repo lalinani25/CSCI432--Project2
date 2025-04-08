@@ -208,14 +208,14 @@ h1 {
     color: white;
     text-align: center;
     text-align: center;
-    font-family: Brush Script MT, Brush Script Std, cursive;
+    font-family:Helvetica;
     font-size: 30px;
     margin: 10px;
 }
 
 h2{
     color: white;
-    font-family: Brush Script MT, Brush Script Std, cursive;
+    font-family: Helvetica;
     font-size: 30px;
     margin: 10px;
     margin-left: 110px;
@@ -230,20 +230,28 @@ p {
 }
 
 #profile-fieldset {
-    position: relative;
-    justify-content: space-between;
-    max-width: 300px;
     margin-bottom: 10px;
-    padding: 5px;
-    background-color: hsl(60, 1%, 17%);
-    border-radius: 5px;
+  padding: 5px;
+  background-color: hsl(60, 1%, 17%);
+  border-radius: 50px;
+  border-style: solid;
+  border-color: var(--clr-accent-500);
+  min-width: 300px;
 }
 
 #modal-fieldset{
-    max-width: 500px;
-    background-color: hsl(60, 1%, 17%);
-    border-radius: 5px;
-    padding: 5px;
+margin-bottom: 10px;
+  padding: 5px;
+  background-color: hsl(60, 1%, 17%);
+  border-radius: 50px;
+  border-style: solid;
+  border-color: var(--clr-accent-500);
+  min-width: 300px;
+}
+
+input{
+    margin-left: 15px;
+    width: 90%;
 }
 
 legend {
@@ -299,4 +307,8 @@ img {
     background-color: hsl(0, 3%, 7%);
 }
 
+img {
+    max-width: 30px;
+    max-height: 30px;
+}
 </style>

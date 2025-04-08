@@ -2,6 +2,9 @@
 import { ref, useTemplateRef} from 'vue';
 import Teams from '@/components/Teams.vue';
 import Modal from '@/components/Modal.vue';
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
 
 const searchQuery = ref('');  
 const teams = ref([]);
@@ -80,6 +83,9 @@ const getTeamDetails = async (teamId) => {
 
 <template>
   <div class="flex justify-center align-center">
+    <div class="flex align-center" @click="router.back()">
+            <img src="/leftArrow.png" class="icon back-button" />
+        </div>
     <div class="search-engine">
       <h1>TEAMS</h1>
 
@@ -286,5 +292,10 @@ legend {
 
 p {
   font-size: 16px;
+}
+
+img {
+    max-width: 30px;
+    max-height: 30px;
 }
 </style>

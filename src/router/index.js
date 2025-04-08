@@ -10,6 +10,7 @@ import Search from '@/views/Search.vue'
 import SearchTeams from '@/views/SearchTeams.vue'
 import SearchPlayers from '@/views/SearchPlayers.vue'
 import SearchGames from '@/views/SearchGames.vue'
+import MiddleBar from '@/views/MiddleBar.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -43,6 +44,17 @@ const router = createRouter({
         authRequired: true,  
       },
       children: [
+        {
+          path: '/main', 
+          components: {
+            leftSidebar: LeftSidebar,
+            focus: MiddleBar,
+            rightSidebar: RightSidebar
+          },
+          meta: {
+            authRequired: true,
+          }
+        },
         {
           path: '/profile', 
           components: {
