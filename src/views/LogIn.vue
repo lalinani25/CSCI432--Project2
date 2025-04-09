@@ -54,7 +54,7 @@ async function logIn(e) {
 		const user = data.user
 		console.log(user)
 		
-		const username = user.userName
+		const username = user.username
 		const firstname = user.firstName
 		const lastname = user.lastName
 		const email = user.email

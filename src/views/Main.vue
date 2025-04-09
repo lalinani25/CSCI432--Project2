@@ -105,6 +105,7 @@ async function Delete(event) {
 <template>
 	<Header>
 		<nav>
+			<RouterLink to="/placeBets" class="button">Bets</RouterLink>
 			<RouterLink to="/search" class="button">Search</RouterLink>
 			<div class="dropdown"> 
 				<a href="#/main" class="dropdown-button">
@@ -112,6 +113,7 @@ async function Delete(event) {
 				</a>
 				<div class="dropdown-content">
 					<RouterLink to="/profile">Profile</RouterLink>
+					<RouterLink to="/userBets">User Bets</RouterLink>
 					<a @click="signOut">Log Out</a>
 					<a @click="Delete">Delete</a>
 				</div>

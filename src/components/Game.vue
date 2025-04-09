@@ -6,7 +6,7 @@ const props = defineProps({ hTeam: String, vTeam: String, season: Number })
 
 <template>
     <div class="card">
-        <h1 class="primary-heading">Team</h1>
+        <h1 class="primary-heading">Game</h1>
     
         <fieldset id="profile-fieldset">
             <legend>Teams</legend>

@@ -10,7 +10,8 @@
         <div class="container">
             <RouterLink :to="($route.path !== '/main' && $route.path !== '/profile' 
                 && $route.path !== '/search' && $route.path !== '/searchTeams' 
-                && $route.path !== '/searchPlayers' && $route.path !== '/searchGames'
+                && $route.path !== '/searchPlayers' && $route.path !== '/searchGames' 
+                && $route.path !== '/placeBets' && $route.path !== '/userBets'
             ) ? '/' : '/main'">
 
        <Logo /> </RouterLink>
