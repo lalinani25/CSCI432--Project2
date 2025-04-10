@@ -136,6 +136,7 @@ main {
   background-color: var(--clr-primary-400);
   padding: 20px;
   border-radius: 40px;
+  margin-top: 100px;
   border-style: solid;
   border-color: var(--clr-accent-500);
   box-shadow: 0px 4px 8px var(--clr-accent-500);

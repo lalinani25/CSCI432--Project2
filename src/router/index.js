@@ -49,9 +49,7 @@ const router = createRouter({
         {
           path: '/main', 
           components: {
-            leftSidebar: LeftSidebar,
-            focus: MiddleBar,
-            rightSidebar: RightSidebar
+            focus: MiddleBar
           },
           meta: {
             authRequired: true,

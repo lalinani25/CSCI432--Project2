@@ -29,6 +29,141 @@ function cancel(e) {
 }
 
 
+const teamLogos = [  
+    {
+      name: "Hawks",
+      logo: "/Hawks.png"
+    },
+    {
+      name: "Celtics",
+      logo: "/Celtics.png"
+    },
+    {
+      name: "Nets",
+      logo: "/Nets.png"
+    },
+    {
+      name: "Hornets",
+      logo: "/Hornets.png"
+    },
+    {
+      name: "Bulls",
+      logo: "/Bulls.png"
+    },
+    {
+      name: "Cavaliers",
+      logo: "/Cavaliers.png"
+    },
+    {
+      name: "Mavericks",
+      logo: "/Mavericks.png"
+    },
+    {
+      name: "Nuggets",
+      logo: "/Nuggets.png"
+    },
+    {
+      name: "Pistons",
+      logo: "/Pistons.png"
+    },
+    {
+      name: "Warriors",
+      logo: "/Warriors.png"
+    },
+    {
+      name: "Rockets",
+      logo: "/Rockets.png"
+    },
+    {
+      name: "Pacers",
+      logo: "/Pacers.png"
+    },
+    {
+      name: "Clippers",
+      logo: "/Clippers.png"
+    },
+    {
+      name: "Lakers",
+      logo: "/Lakers.png"
+    },
+    {
+      name: "Grizzlies",
+      logo: "/Grizzlies.png"
+    },
+    {
+      name: "Heat",
+      logo: "/Miami Heat.png"
+    },
+    {
+      name: "Bucks",
+      logo: "/Bucks.png"
+    },
+    {
+      name: "Timberwolves",
+      logo: "/Timberwolves.png"
+    },
+    {
+      name: "Pelicans",
+      logo: "/Pelicans.png"
+    },
+    {
+      name: "Knicks",
+      logo: "/Knicks.png"
+    },
+    {
+      name: "Thunder",
+      logo: "/Thunder.png"
+    },
+    {
+      name: "Magic",
+      logo: "/Magic.png"
+    },
+    {
+      name: "76ers",
+      logo: "/76ers.png"
+    },
+    {
+      name: "Suns",
+      logo: "/suns.png"
+    },
+    {
+      name: "Trail Blazers",
+      logo: "/Bluzers.png"
+    },
+    {
+      name: "Kings",
+      logo: "/Kings.png"
+    },
+    {
+      name: "Spurs",
+      logo: "/Spurs.png"
+    },
+    {
+      name: "Raptors",
+      logo: "/Raptors.png"
+    },
+    {
+      name: "Jazz",
+      logo: "/Jazz.png"
+    },
+    {
+      name: "Wizards",
+      logo: "/Wizards.png"
+    },
+
+
+]
+
+const getTeamLogo = (teamName) => {
+  console.log(teamName)
+ 
+  const logo = teamLogos.find((logo) => logo.name === teamName);
+
+  const logo1 = logo ? { logo: logo.logo } : {}
+
+  return logo1.logo;
+};
+
 function formatDate(date) {
   if (!date) return ''; 
   const [year, month, day] = date.split('-');
@@ -255,6 +390,8 @@ const getGameDetails = async (gameId) => {
           :hTeam="game.home_team.name"
           :vTeam="game.visitor_team.name"
           :season="game.season"
+          :logo1="getTeamLogo(game.home_team.name)"
+          :logo2="getTeamLogo(game.visitor_team.name)"
          
           @click="getGameDetails(game.id)"  
         />
@@ -335,7 +472,7 @@ h2 {
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 600px;
+  min-width: 500px;
   margin-bottom: 20px;
 }
 

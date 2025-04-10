@@ -7,10 +7,10 @@ console.log("Hello");
 
 <template>
     <div class="flex justify-center align-center">
-        <div class="basketball-container">
+        <!--div class="basketball-container">
             <img src="/basket.png" alt="Bouncing Basketball" class="basketball" />
         </div>
-       <h1> Welcome {{username}}!!!</h1>
+       <h1> Welcome {{username}}!!!</h1-->
     </div>
 </template>
 

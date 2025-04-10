@@ -14,6 +14,142 @@ const errorMessage = ref('');
 const selectedField = ref('');  
 const selectedTeamData = ref(null)
 
+const teamLogos = [  
+    {
+      id: 1,
+      logo: "/Hawks.png"
+    },
+    {
+      id: 2,
+      logo: "/Celtics.png"
+    },
+    {
+      id: 3,
+      logo: "/Nets.png"
+    },
+    {
+      id: 4,
+      logo: "/Hornets.png"
+    },
+    {
+      id: 5,
+      logo: "/Bulls.png"
+    },
+    {
+      id: 6,
+      logo: "/Cavaliers.png"
+    },
+    {
+      id: 7,
+      logo: "/Mavericks.png"
+    },
+    {
+      id: 8,
+      logo: "/Nuggets.png"
+    },
+    {
+      id: 9,
+      logo: "/Pistons.png"
+    },
+    {
+      id: 10,
+      logo: "/Warriors.png"
+    },
+    {
+      id: 11,
+      logo: "/Rockets.png"
+    },
+    {
+      id: 12,
+      logo: "/Pacers.png"
+    },
+    {
+      id: 13,
+      logo: "/Clippers.png"
+    },
+    {
+      id: 14,
+      logo: "/Lakers.png"
+    },
+    {
+      id: 15,
+      logo: "/Grizzlies.png"
+    },
+    {
+      id: 16,
+      logo: "/Miami Heat.png"
+    },
+    {
+      id: 17,
+      logo: "/Bucks.png"
+    },
+    {
+      id: 18,
+      logo: "/Timberwolves.png"
+    },
+    {
+      id: 19,
+      logo: "/Pelicans.png"
+    },
+    {
+      id: 20,
+      logo: "/Knicks.png"
+    },
+    {
+      id: 21,
+      logo: "/Thunder.png"
+    },
+    {
+      id: 22,
+      logo: "/Magic.png"
+    },
+    {
+      id: 23,
+      logo: "/76ers.png"
+    },
+    {
+      id: 24,
+      logo: "/suns.png"
+    },
+    {
+      id: 25,
+      logo: "/Bluzers.png"
+    },
+    {
+      id: 26,
+      logo: "/Kings.png"
+    },
+    {
+      id: 27,
+      logo: "/Spurs.png"
+    },
+    {
+      id: 28,
+      logo: "/Raptors.png"
+    },
+    {
+      id: 29,
+      logo: "/Jazz.png"
+    },
+    {
+      id: 30,
+      logo: "/Wizards.png"
+    },
+
+
+]
+
+const getTeamLogo = (teamId) => {
+  console.log(teamId)
+  const logo = teamLogos.find((logo) => logo.id === teamId);
+
+  console.log(logo ? { logo: logo.logo } : {})
+
+  const logo1 = logo ? { logo: logo.logo } : {}
+
+  return logo1.logo;
+};
+
 const modal = useTemplateRef('name-modal');
 
 let url = 'https://csci-430-server-dubbabadgmf8hpfk.eastus2-01.azurewebsites.net/teams';  
@@ -41,6 +177,7 @@ const fetchTeams = async () => {
     if (response.status === 200) {
       const data = await response.json();
       teams.value = data.data;
+      console.log(teams.value)
     } else {
       errorMessage.value = 'Failed to fetch teams';
     }
@@ -77,6 +214,7 @@ const getTeamDetails = async (teamId) => {
   } finally {
     isLoading.value = false;
   }
+
 };
 
 </script>
@@ -114,6 +252,7 @@ const getTeamDetails = async (teamId) => {
           :key="team.id" 
           :name="team.name"
           :conference="team.conference"
+          :logo="getTeamLogo(team.id)"
           @click="getTeamDetails(team.id)"  
         />
       </div>
@@ -210,15 +349,15 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px; /* Space between input and button */
+  gap: 10px;
   margin-bottom: 10px;
   width: 100%;
-  max-width: 600px;
+  min-width: 500px;
 }
 
 input {
   padding: 10px;
-  flex-grow: 1; /* Allow the input field to grow */
+  flex-grow: 1; 
   min-width: 200px;
   max-width: 400px; 
 }

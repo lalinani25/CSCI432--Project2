@@ -32,6 +32,140 @@ function cancel(e) {
     modal.value.close(e);
 }
 
+const teamLogos = [
+    {
+        name: "Hawks",
+        logo: "/Hawks.png"
+    },
+    {
+        name: "Celtics",
+        logo: "/Celtics.png"
+    },
+    {
+        name: "Nets",
+        logo: "/Nets.png"
+    },
+    {
+        name: "Hornets",
+        logo: "/Hornets.png"
+    },
+    {
+        name: "Bulls",
+        logo: "/Bulls.png"
+    },
+    {
+        name: "Cavaliers",
+        logo: "/Cavaliers.png"
+    },
+    {
+        name: "Mavericks",
+        logo: "/Mavericks.png"
+    },
+    {
+        name: "Nuggets",
+        logo: "/Nuggets.png"
+    },
+    {
+        name: "Pistons",
+        logo: "/Pistons.png"
+    },
+    {
+        name: "Warriors",
+        logo: "/Warriors.png"
+    },
+    {
+        name: "Rockets",
+        logo: "/Rockets.png"
+    },
+    {
+        name: "Pacers",
+        logo: "/Pacers.png"
+    },
+    {
+        name: "Clippers",
+        logo: "/Clippers.png"
+    },
+    {
+        name: "Lakers",
+        logo: "/Lakers.png"
+    },
+    {
+        name: "Grizzlies",
+        logo: "/Grizzlies.png"
+    },
+    {
+        name: "Heat",
+        logo: "/Miami Heat.png"
+    },
+    {
+        name: "Bucks",
+        logo: "/Bucks.png"
+    },
+    {
+        name: "Timberwolves",
+        logo: "/Timberwolves.png"
+    },
+    {
+        name: "Pelicans",
+        logo: "/Pelicans.png"
+    },
+    {
+        name: "Knicks",
+        logo: "/Knicks.png"
+    },
+    {
+        name: "Thunder",
+        logo: "/Thunder.png"
+    },
+    {
+        name: "Magic",
+        logo: "/Magic.png"
+    },
+    {
+        name: "76ers",
+        logo: "/76ers.png"
+    },
+    {
+        name: "Suns",
+        logo: "/suns.png"
+    },
+    {
+        name: "Trail Blazers",
+        logo: "/Bluzers.png"
+    },
+    {
+        name: "Kings",
+        logo: "/Kings.png"
+    },
+    {
+        name: "Spurs",
+        logo: "/Spurs.png"
+    },
+    {
+        name: "Raptors",
+        logo: "/Raptors.png"
+    },
+    {
+        name: "Jazz",
+        logo: "/Jazz.png"
+    },
+    {
+        name: "Wizards",
+        logo: "/Wizards.png"
+    },
+
+
+]
+
+const getTeamLogo = (teamName) => {
+    console.log(teamName)
+
+    const logo = teamLogos.find((logo) => logo.name === teamName);
+
+    const logo1 = logo ? { logo: logo.logo } : {}
+
+    return logo1.logo;
+};
 
 function formatDate(date) {
     if (!date) return '';
@@ -168,7 +302,7 @@ const postBet = async () => {
 
     console.log(betData)
 
-	const jsonData = JSON.stringify(betData)
+    const jsonData = JSON.stringify(betData)
 
     try {
         const response = await fetch(url1, {
@@ -182,8 +316,9 @@ const postBet = async () => {
         if (response.ok) {
             const data = await response.json();
             console.log(data)
+            message.value = "Bet created successfully!"
         } else if (response.status === 404) {
-            errorMessage.value = 'Player not found';
+            errorMessage.value = 'Bet not created!';
         }
     } catch (error) {
         errorMessage.value = 'Error: ' + error.message;
@@ -240,8 +375,14 @@ const postBet = async () => {
             </div>
 
             <div id="s-container" class="s-container">
-                <Game v-for="game in games" :key="game.id" :hTeam="game.home_team.name" :vTeam="game.visitor_team.name"
-                    :season="game.season" @click="getGameDetails(game.id)" />
+                <Game v-for="game in games" 
+                    :key="game.id" 
+                    :hTeam="game.home_team.name" 
+                    :vTeam="game.visitor_team.name"
+                    :season="game.season" 
+                    :logo1="getTeamLogo(game.home_team.name)"
+                    :logo2="getTeamLogo(game.visitor_team.name)" 
+                    @click="getGameDetails(game.id)" />
             </div>
 
             <Modal ref="name-modal">
@@ -282,6 +423,7 @@ const postBet = async () => {
                 </template>
 
                 <template #footer>
+                    {{ message }}
                 </template>
             </Modal>
 
@@ -402,21 +544,22 @@ label {
 
 #profile-fieldset {
     margin-bottom: 10px;
-  padding: 5px;
-  background-color: hsl(60, 1%, 17%);
-  border-radius: 50px;
-  border-style: solid;
-  border-color: var(--clr-accent-500);
-  min-width: 300px;
+    padding: 5px;
+    background-color: hsl(60, 1%, 17%);
+    border-radius: 50px;
+    border-style: solid;
+    border-color: var(--clr-accent-500);
+    min-width: 300px;
 }
-#modal-fieldset{
-margin-bottom: 10px;
-  padding: 5px;
-  background-color: hsl(60, 1%, 17%);
-  border-radius: 50px;
-  border-style: solid;
-  border-color: var(--clr-accent-500);
-  min-width: 300px;
+
+#modal-fieldset {
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: hsl(60, 1%, 17%);
+    border-radius: 50px;
+    border-style: solid;
+    border-color: var(--clr-accent-500);
+    min-width: 300px;
 }
 
 legend {

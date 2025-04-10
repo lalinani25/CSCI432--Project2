@@ -12,6 +12,144 @@ const selectedPlayerData = ref(null);
 const isLoading = ref(false);
 const errorMessage = ref('');
 
+const teamLogos = [  
+    {
+      name: "Hawks",
+      logo: "/Hawks.png"
+    },
+    {
+      name: "Celtics",
+      logo: "/Celtics.png"
+    },
+    {
+      name: "Nets",
+      logo: "/Nets.png"
+    },
+    {
+      name: "Hornets",
+      logo: "/Hornets.png"
+    },
+    {
+      name: "Bulls",
+      logo: "/Bulls.png"
+    },
+    {
+      name: "Cavaliers",
+      logo: "/Cavaliers.png"
+    },
+    {
+      name: "Mavericks",
+      logo: "/Mavericks.png"
+    },
+    {
+      name: "Nuggets",
+      logo: "/Nuggets.png"
+    },
+    {
+      name: "Pistons",
+      logo: "/Pistons.png"
+    },
+    {
+      name: "Warriors",
+      logo: "/Warriors.png"
+    },
+    {
+      name: "Rockets",
+      logo: "/Rockets.png"
+    },
+    {
+      name: "Pacers",
+      logo: "/Pacers.png"
+    },
+    {
+      name: "Clippers",
+      logo: "/Clippers.png"
+    },
+    {
+      name: "Lakers",
+      logo: "/Lakers.png"
+    },
+    {
+      name: "Grizzlies",
+      logo: "/Grizzlies.png"
+    },
+    {
+      name: "Heat",
+      logo: "/Miami Heat.png"
+    },
+    {
+      name: "Bucks",
+      logo: "/Bucks.png"
+    },
+    {
+      name: "Timberwolves",
+      logo: "/Timberwolves.png"
+    },
+    {
+      name: "Pelicans",
+      logo: "/Pelicans.png"
+    },
+    {
+      name: "Knicks",
+      logo: "/Knicks.png"
+    },
+    {
+      name: "Thunder",
+      logo: "/Thunder.png"
+    },
+    {
+      name: "Magic",
+      logo: "/Magic.png"
+    },
+    {
+      name: "76ers",
+      logo: "/76ers.png"
+    },
+    {
+      name: "Suns",
+      logo: "/suns.png"
+    },
+    {
+      name: "Trail Blazers",
+      logo: "/Bluzers.png"
+    },
+    {
+      name: "Kings",
+      logo: "/Kings.png"
+    },
+    {
+      name: "Spurs",
+      logo: "/Spurs.png"
+    },
+    {
+      name: "Raptors",
+      logo: "/Raptors.png"
+    },
+    {
+      name: "Jazz",
+      logo: "/Jazz.png"
+    },
+    {
+      name: "Wizards",
+      logo: "/Wizards.png"
+    },
+
+
+]
+
+const getTeamLogo = (teamName) => {
+  console.log(teamName)
+ 
+
+  const logo = teamLogos.find((logo) => logo.name === teamName);
+
+
+
+  const logo1 = logo ? { logo: logo.logo } : {}
+
+  return logo1.logo;
+};
+
 const modal = useTemplateRef('name-modal');
 
 
@@ -103,6 +241,7 @@ const getPlayersDetails = async (playerId) => {
           :name="player.first_name"
           :lname="player.last_name"
           :team="player.team.name"
+          :logo="getTeamLogo(player.team.name)"
           @click="getPlayersDetails(player.id)"  
         />
       </div>
@@ -219,7 +358,7 @@ h2 {
   gap: 10px; 
   margin-bottom: 10px;
   width: 100%;
-  max-width: 600px;
+  min-width: 500px;
 }
 
 input {

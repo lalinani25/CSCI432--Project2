@@ -28,7 +28,7 @@ import Logo from '../components/Logo.vue'
 
 img {
    max-width: 400px;
-   margin-top: -30px;
+   margin-top: 30px;
 }
 
 .button-style {

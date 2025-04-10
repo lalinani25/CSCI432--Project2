@@ -166,6 +166,7 @@ main {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	margin-top: 50px;
 	height: 70vh;
 	flex-wrap: wrap;
 }

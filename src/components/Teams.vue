@@ -1,53 +1,55 @@
 <script setup>
-
-const props = defineProps({ name: String, conference: String })
-
+const props = defineProps({
+  name: String,
+  conference: String,
+  logo: String,
+});
 </script>
 
 <template>
-    <div class="card">
-        <h1 class="primary-heading">TEAM</h1>
-       
-        <fieldset id="profile-fieldset">
-            <legend>Name</legend>
-            <p>{{ name }}</p>
-          </fieldset>
+  <div class="card">
+    <img :src="logo" alt="Team Logo" />
+    <div class="team-details">
+      <fieldset id="profile-fieldset">
+        <legend>Name</legend>
+        <p>{{ name }}</p>
+      </fieldset>
 
-          <fieldset id="profile-fieldset">
-            <legend>Conference</legend>
-            <p>{{ conference }}</p>
-          </fieldset>
-
+      <fieldset id="profile-fieldset">
+        <legend>Conference</legend>
+        <p>{{ conference }}</p>
+      </fieldset>
     </div>
-
+  </div>
 </template>
 
 <style scoped>
-
-h1{
-    font-family: Helvetica;
-    font-size: 20px;
-}
-
 .card {
- 
-    color: var(--clr-neutral-100);
-
-    width: 100%;
-    min-height: 200px;
-
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    background-color: var(--clr-primary-400);
+  color: var(--clr-neutral-100);
+  width: 100%;
+  min-height: 200px;
+  padding: 30px;
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center;
+  background-color: var(--clr-primary-400);
   padding: 20px;
   border-radius: 40px;
   border-style: solid;
   border-color: var(--clr-accent-500);
   box-shadow: 0px 4px 8px var(--clr-accent-500);
+  gap: 20px; 
+}
+
+.card img {
+  max-width: 130px; 
+  max-height: 130px; 
+}
+
+.team-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 #profile-fieldset {
@@ -64,5 +66,4 @@ legend {
   font-weight: 600;
   color: var(--clr-accent-500);
 }
-
 </style>
