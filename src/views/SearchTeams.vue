@@ -1,18 +1,15 @@
 <script setup>
 import { ref, useTemplateRef} from 'vue';
 import Teams from '@/components/Teams.vue';
-import Modal from '@/components/Modal.vue';
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
 
 const searchQuery = ref('');  
 const teams = ref([]);
-const selectedTeam = ref(null); 
 const isLoading = ref(false);
 const errorMessage = ref('');
 const selectedField = ref('');  
-const selectedTeamData = ref(null)
 
 const teamLogos = [  
     {
@@ -188,35 +185,6 @@ const fetchTeams = async () => {
   }
 };
 
-const getTeamDetails = async (teamId) => {
-  const url1 = `https://csci-430-server-dubbabadgmf8hpfk.eastus2-01.azurewebsites.net/teams/${teamId}`;
-  isLoading.value = true;
-  errorMessage.value = '';
-  try {
-    const response = await fetch(url1, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (response.ok) {
-      const data = await response.json();
-      selectedTeam.value = data.standings; 
-      selectedTeamData.value = data.team
-      console.log(selectedTeam.value)
-      modal.value.open()
-      console.log(modal.value.open())
-    } else if (response.status === 404) {
-      errorMessage.value = 'Team not found';
-    }
-  } catch (error) {
-    errorMessage.value = 'Error: ' + error.message;
-  } finally {
-    isLoading.value = false;
-  }
-
-};
-
 </script>
 
 <template>
@@ -253,51 +221,10 @@ const getTeamDetails = async (teamId) => {
           :name="team.name"
           :conference="team.conference"
           :logo="getTeamLogo(team.id)"
-          @click="getTeamDetails(team.id)"  
+          :team_id="team.id"
+         
         />
       </div>
-
-      <Modal ref="name-modal">
-        <template #header>
-          <h2 class="primary-heading">Team Details</h2>
-        </template>
-
-        <template #main>
-          <fieldset id="profile-fieldset">
-            <legend>Name</legend>
-            <p>{{ selectedTeamData?.name }}</p>
-          </fieldset>
-
-          <fieldset id="profile-fieldset">
-            <legend>Conference</legend>
-            <p>{{ selectedTeamData?.conference }}</p>
-          </fieldset>
-
-          <fieldset id="profile-fieldset">
-            <legend>Season</legend>
-            <p>{{ selectedTeam?.season }}</p>
-          </fieldset>
-
-          <fieldset id="profile-fieldset">
-            <legend>Conference Rank</legend>
-            <p>{{ selectedTeam?.conference_rank }}</p>
-          </fieldset>
-
-          <fieldset id="profile-fieldset">
-            <legend>Wins</legend>
-            <p>{{ selectedTeam?.wins }}</p>
-          </fieldset>
-
-          <fieldset id="profile-fieldset">
-            <legend>Losses</legend>
-            <p>{{ selectedTeam?.losses }}</p>
-          </fieldset>
-        </template>
-
-        <template #footer>
-        
-        </template>
-      </Modal>
 
       <div v-if="errorMessage">
         <p style="color: red;">{{ errorMessage }}</p>
@@ -373,7 +300,7 @@ input {
 
 button {
   padding: 10px 20px;
-  background-color: var(--clr-accent-400);
+  background-color: rgb(176, 137, 232); 
   color: white;
   text-align: center;
   text-decoration: none;

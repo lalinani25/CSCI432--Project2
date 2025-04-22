@@ -13,6 +13,8 @@ import SearchGames from '@/views/SearchGames.vue'
 import MiddleBar from '@/views/MiddleBar.vue'
 import PlaceBets from '@/views/PlaceBets.vue'
 import UserBets from '@/views/UserBets.vue'
+import FavoriteTeams from '@/views/FavoriteTeams.vue'
+import FavoritePlayers from '@/views/FavoritePlayers.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -126,6 +128,28 @@ const router = createRouter({
           components: {
             leftSidebar: LeftSidebar,
             focus:UserBets,
+            rightSidebar: RightSidebar
+          },
+          meta: {
+            authRequired: true,
+          }
+        },
+        {
+          path: '/favoriteTeams', 
+          components: {
+            leftSidebar: LeftSidebar,
+            focus:FavoriteTeams,
+            rightSidebar: RightSidebar
+          },
+          meta: {
+            authRequired: true,
+          }
+        },
+        {
+          path: '/favoritePlayers', 
+          components: {
+            leftSidebar: LeftSidebar,
+            focus:FavoritePlayers,
             rightSidebar: RightSidebar
           },
           meta: {

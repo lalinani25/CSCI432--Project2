@@ -1,14 +1,127 @@
 <script setup>
+import { ref, watch, onMounted, useTemplateRef } from 'vue';
+import Modal from '@/components/Modal.vue';
+
+const modal = useTemplateRef('name-modal');
+
 const props = defineProps({
   name: String,
   conference: String,
   logo: String,
+  team_id: Number
 });
+
+const token = localStorage.getItem('token');
+
+const isFavorite = ref(false);
+const selectedTeam = ref(null);
+const isLoading = ref(false);
+const errorMessage = ref('');
+const selectedTeamData = ref(null);
+
+const fetchFavoriteStatus = async () => {
+  try {
+    const response = await fetch('https://csci-430-server-dubbabadgmf8hpfk.eastus2-01.azurewebsites.net/favorite-teams', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    isFavorite.value = data.favoriteTeams.includes(props.team_id.toString());  
+  } catch (error) {
+    console.error('Error fetching favorites:', error);
+  }
+};
+
+onMounted(() => {
+  fetchFavoriteStatus();
+});
+
+const toggleFavorite = async () => {
+  if (isFavorite.value) {
+    const success = await removeFavTeam(props.team_id);
+    if (success) isFavorite.value = false;
+  } else {
+    const success = await addFavoriteTeam(props.team_id);
+    if (success) isFavorite.value = true;
+  }
+};
+
+const addFavoriteTeam = async (teamId) => {
+  const url = `https://csci-430-server-dubbabadgmf8hpfk.eastus2-01.azurewebsites.net/favorite-teams`;
+  const data = { team_id: teamId };
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) throw new Error('Failed to add favorite');
+    console.log('Added to favorites!');
+    return true;
+  } catch (error) {
+    console.error(error.message);
+    return false;
+  }
+};
+
+const removeFavTeam = async (teamId) => {
+  const url = `https://csci-430-server-dubbabadgmf8hpfk.eastus2-01.azurewebsites.net/favorite-teams/${teamId}`;
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) throw new Error('Failed to remove favorite');
+    console.log('Removed from favorites!');
+    return true;
+  } catch (error) {
+    console.error(error.message);
+    return false;
+  }
+};
+
+const getTeamDetails = async (teamId) => {
+  const url = `https://csci-430-server-dubbabadgmf8hpfk.eastus2-01.azurewebsites.net/teams/${teamId}`;
+  isLoading.value = true;
+  try {
+    const response = await fetch(url);
+    if (response.ok) {
+      const data = await response.json();
+      selectedTeam.value = data.standings;
+      selectedTeamData.value = data.team;
+      modal.value.open();
+    } else {
+      errorMessage.value = 'Team not found';
+    }
+  } catch (error) {
+    errorMessage.value = 'Error: ' + error.message;
+  } finally {
+    isLoading.value = false;
+  }
+};
 </script>
 
 <template>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <div class="card">
-    <img :src="logo" alt="Team Logo" />
+    <button @click="toggleFavorite" class="fav">
+    
+      <span class="fa fa-star" :class="{ checked: isFavorite, unchecked: !isFavorite }"></span>
+    </button>
+
+    <div>
+      <img :src="logo" alt="Team Logo" class="logo-icon" />
+    </div>
+
     <div class="team-details">
       <fieldset id="profile-fieldset">
         <legend>Name</legend>
@@ -19,8 +132,53 @@ const props = defineProps({
         <legend>Conference</legend>
         <p>{{ conference }}</p>
       </fieldset>
+
+      <div>
+        <button @click="getTeamDetails(team_id)" class="details"><img src="/details.png" class="icon"/></button>
+      </div>
     </div>
   </div>
+
+  <Modal ref="name-modal">
+    <template #header>
+      <h2 class="primary-heading">Team Details</h2>
+    </template>
+
+    <template #main>
+      <fieldset id="profile-fieldset">
+        <legend>Name</legend>
+        <p>{{ selectedTeamData?.name }}</p>
+      </fieldset>
+
+      <fieldset id="profile-fieldset">
+        <legend>Conference</legend>
+        <p>{{ selectedTeamData?.conference }}</p>
+      </fieldset>
+
+      <fieldset id="profile-fieldset">
+        <legend>Season</legend>
+        <p>{{ selectedTeam?.season }}</p>
+      </fieldset>
+
+      <fieldset id="profile-fieldset">
+        <legend>Conference Rank</legend>
+        <p>{{ selectedTeam?.conference_rank }}</p>
+      </fieldset>
+
+      <fieldset id="profile-fieldset">
+        <legend>Wins</legend>
+        <p>{{ selectedTeam?.wins }}</p>
+      </fieldset>
+
+      <fieldset id="profile-fieldset">
+        <legend>Losses</legend>
+        <p>{{ selectedTeam?.losses }}</p>
+      </fieldset>
+    </template>
+
+    <template #footer>
+    </template>
+  </Modal>
 </template>
 
 <style scoped>
@@ -41,7 +199,7 @@ const props = defineProps({
   gap: 20px; 
 }
 
-.card img {
+.logo-icon{
   max-width: 130px; 
   max-height: 130px; 
 }
@@ -49,7 +207,7 @@ const props = defineProps({
 .team-details {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 }
 
 #profile-fieldset {
@@ -65,5 +223,54 @@ const props = defineProps({
 legend {
   font-weight: 600;
   color: var(--clr-accent-500);
+}
+
+.checked {
+  color: var(--clr-accent-500);  
+}
+
+.unchecked {
+  color: gray;  
+}
+
+.fa-star {
+  font-size: 20px;
+}
+
+.details{
+  padding: 5px 5px;
+  background: none;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 14px;
+  border: 2px;
+  border-radius: 30px;
+  border-color: var(--clr-accent-500);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.details:hover {
+  background-color: var(--clr-accent-500); 
+}
+
+.details:active {
+  background-color: var(--clr-accent-500); 
+}
+
+.fav {
+  background-color: var(--clr-primary-400);
+  color: var(--clr-neutral-100);
+}
+h2 {
+  font-size: 24px;
+  margin-top: 10px;
+  margin-left: 90px;
+}
+
+.icon {
+    max-width: 30px;
+    max-height: 30px;
 }
 </style>

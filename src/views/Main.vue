@@ -72,8 +72,19 @@ async function Delete(event) {
 <template>
 	<Header>
 	  <nav>
+    <RouterLink to="/search" class="button" @click="scrollToThreeViews">Search</RouterLink>
+
+    <div class="dropdown">
+		  <div class="dropdown-button">
+        🤍
+		  </div>
+		  <div class="dropdown-content">
+        <RouterLink to="/favoriteTeams"  @click="scrollToThreeViews">Fav-Teams</RouterLink>
+        <RouterLink to="/favoritePlayers" @click="scrollToThreeViews">Fav-Players</RouterLink>
+		  </div>
+		</div>
+
 		<RouterLink to="/placeBets" class="button" @click="scrollToThreeViews">Bets</RouterLink>
-		<RouterLink to="/search" class="button" @click="scrollToThreeViews">Search</RouterLink>
   
 		<div class="dropdown">
 		  <div class="dropdown-button">

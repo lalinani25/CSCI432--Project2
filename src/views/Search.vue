@@ -40,7 +40,7 @@ h1 {
 
 .button {
   padding: 10px 20px;
-  background-color:var(--clr-accent-400); 
+  background-color:rgb(176, 137, 232); 
   color: white;
   text-align: center;
   text-decoration: none;

@@ -7,8 +7,6 @@ const router = useRouter();
 
 const searchQuery = ref('');  
 const players = ref([]);
-const selectedPlayer = ref(null); 
-const selectedPlayerData = ref(null); 
 const isLoading = ref(false);
 const errorMessage = ref('');
 
@@ -150,9 +148,6 @@ const getTeamLogo = (teamName) => {
   return logo1.logo;
 };
 
-const modal = useTemplateRef('name-modal');
-
-
 let url = 'https://csci-430-server-dubbabadgmf8hpfk.eastus2-01.azurewebsites.net/players';  
 
 const fetchPlayers = async () => {
@@ -185,31 +180,7 @@ const fetchPlayers = async () => {
   }
 };
 
-const getPlayersDetails = async (playerId) => {
-  const url1 = `https://csci-430-server-dubbabadgmf8hpfk.eastus2-01.azurewebsites.net/players/${playerId}`;
-  isLoading.value = true;
-  errorMessage.value = '';
-  try {
-    const response = await fetch(url1, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (response.ok) {
-      const data = await response.json();
-      selectedPlayer.value = data.player.data; 
-      selectedPlayerData.value = data.stats.data[0];  
-      modal.value.open(); 
-    } else if (response.status === 404) {
-      errorMessage.value = 'Player not found';
-    }
-  } catch (error) {
-    errorMessage.value = 'Error: ' + error.message;
-  } finally {
-    isLoading.value = false;
-  }
-};
+
 </script>
 
 <template>
@@ -242,69 +213,10 @@ const getPlayersDetails = async (playerId) => {
           :lname="player.last_name"
           :team="player.team.name"
           :logo="getTeamLogo(player.team.name)"
+          :player_id = "player.id" 
           @click="getPlayersDetails(player.id)"  
         />
       </div>
-
-      <Modal ref="name-modal">
-        <template #header>
-          <h2 class="primary-heading">Player Details</h2>
-        </template>
-
-        <template #main>
-          <div id="modal-main-content">
-            <fieldset id="profile-fieldset">
-              <legend>Name</legend>
-              <p>{{ selectedPlayer?.first_name }} {{ selectedPlayer?.last_name }}</p>
-            </fieldset>
-
-            <fieldset id="profile-fieldset">
-              <legend>Team</legend>
-              <p>{{ selectedPlayer?.team.name }}</p>
-            </fieldset>
-
-            <fieldset id="profile-fieldset">
-              <legend>Draft Year</legend>
-              <p>{{ selectedPlayer?.draft_year }}</p>
-            </fieldset>
-
-            <fieldset id="profile-fieldset">
-              <legend>Position</legend>
-              <p>{{ selectedPlayer?.position }}</p>
-            </fieldset>
-
-            <fieldset id="profile-fieldset">
-              <legend>Jersey Number</legend>
-              <p>{{ selectedPlayer?.jersey_number }}</p>
-            </fieldset>
-
-            <fieldset id="profile-fieldset">
-              <legend>Height</legend>
-              <p>{{ selectedPlayer?.height }}</p>
-            </fieldset>
-
-            <fieldset id="profile-fieldset">
-              <legend>Games Played</legend>
-              <p>{{ selectedPlayerData?.games_played }}</p>
-            </fieldset>
-
-            <fieldset id="profile-fieldset">
-              <legend>Points</legend>
-              <p>{{ selectedPlayerData?.pts }}</p>
-            </fieldset>
-
-            <fieldset id="profile-fieldset">
-              <legend>Season</legend>
-              <p>{{ selectedPlayerData?.season }}</p>
-            </fieldset>
-
-          </div>
-
-        </template>
-
-        <template #footer>
-        </template>
-      </Modal>
 
       <div v-if="errorMessage">
         <p style="color: red;">{{ errorMessage }}</p>
@@ -379,7 +291,7 @@ input {
 
 button {
   padding: 10px 20px;
-  background-color: var(--clr-accent-400);
+  background-color: rgb(176, 137, 232); 
   color: white;
   text-align: center;
   text-decoration: none;
